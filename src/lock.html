@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#fff4e8">
+<title>For Kate only</title>
+<meta property="og:title" content="A very important question for Kate">
+<meta property="og:description" content="Prove you're Kate to open it.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔒</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #fff4e8;
+    --card: #ffffff;
+    --ink: #3b2a24;
+    --muted: #8a736a;
+    --accent: #ff6b6b;
+    --accent-dark: #e04f4f;
+    --chip: #fff0e3;
+    --chip-border: #f3d9c4;
+    --picked: #ff6b6b;
+    --shadow: 0 10px 30px rgba(120, 60, 30, 0.12);
+  }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html, body { margin: 0; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "Fredoka", ui-rounded, system-ui, sans-serif;
+    min-height: 100dvh;
+    padding: max(24px, env(safe-area-inset-top)) 16px max(32px, env(safe-area-inset-bottom));
+  }
+  main { max-width: 440px; margin: 0 auto; }
+
+  .hero { text-align: center; margin: 8px 0 20px; }
+  .lock {
+    font-size: 64px; display: inline-block;
+    animation: wobble 2.4s ease-in-out infinite;
+    transform-origin: 50% 80%;
+  }
+  @keyframes wobble { 0%,100% { transform: rotate(0) } 10% { transform: rotate(-10deg) } 20% { transform: rotate(8deg) } 30% { transform: rotate(0) } }
+  h1 { font-size: 30px; margin: 6px 0 4px; font-weight: 700; }
+  .sub { color: var(--muted); font-size: 17px; margin: 0; line-height: 1.4; }
+  .sub b { color: var(--ink); font-weight: 600; }
+
+  .card {
+    background: var(--card); border-radius: 24px; box-shadow: var(--shadow);
+    padding: 18px 16px 8px;
+  }
+  .ticket-head {
+    display: flex; justify-content: space-between; align-items: baseline;
+    border-bottom: 2px dashed var(--chip-border); padding-bottom: 10px; margin-bottom: 6px;
+  }
+  .ticket-head span:first-child { font-weight: 700; font-size: 18px; }
+  .ticket-head span:last-child { color: var(--muted); font-size: 14px; }
+
+  fieldset { border: 0; margin: 0; padding: 12px 0 10px; }
+  fieldset + fieldset { border-top: 1px solid #f6e6d8; }
+  legend { float: left; width: 100%; font-weight: 600; font-size: 16px; padding: 0; margin-bottom: 10px; }
+  legend + .chips { clear: both; }
+  legend small { color: var(--muted); font-weight: 400; font-size: 13px; margin-left: 4px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip {
+    font: inherit; font-size: 15px; color: var(--ink);
+    background: var(--chip); border: 2px solid var(--chip-border);
+    border-radius: 999px; padding: 8px 14px; cursor: pointer;
+    transition: transform .12s ease, background .15s, border-color .15s, color .15s;
+  }
+  .chip:active { transform: scale(.94); }
+  .chip[aria-pressed="true"] {
+    background: var(--picked); border-color: var(--picked); color: #fff;
+    animation: pop .25s ease;
+  }
+  @keyframes pop { 50% { transform: scale(1.12) } }
+
+  .actions { margin-top: 20px; text-align: center; }
+  .unlock {
+    font: inherit; font-size: 20px; font-weight: 600; color: #fff;
+    background: var(--accent); border: 0; border-radius: 999px;
+    padding: 16px 32px; width: 100%; cursor: pointer;
+    box-shadow: 0 6px 0 var(--accent-dark);
+    transition: transform .1s, box-shadow .1s;
+  }
+  .unlock:active { transform: translateY(4px); box-shadow: 0 2px 0 var(--accent-dark); }
+  .unlock:disabled { opacity: .75; cursor: progress; }
+
+  .msg {
+    min-height: 56px; margin: 16px 0 0; font-size: 19px; font-weight: 600; text-align: center;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .msg.shake { animation: shake .45s ease; }
+  @keyframes shake { 20%,60% { transform: translateX(-10px) } 40%,80% { transform: translateX(10px) } }
+  .hint { color: var(--muted); font-size: 14px; text-align: center; margin: 0; visibility: hidden; }
+  .hint.show { visibility: visible; }
+
+  .shake-card { animation: shake .45s ease; }
+</style>
+</head>
+<body>
+<main>
+  <section class="hero">
+    <div class="lock" aria-hidden="true">🔒</div>
+    <h1>For Kate only</h1>
+    <p class="sub">Prove you're Kate.<br><b>What's your usual Chipotle order?</b></p>
+  </section>
+
+  <form class="card" id="order" autocomplete="off">
+    <div class="ticket-head"><span>Order for: Kate?</span><span>#001</span></div>
+    <div id="cats"></div>
+  </form>
+
+  <div class="actions">
+    <button class="unlock" id="unlock" type="submit" form="order">Unlock</button>
+    <p class="msg" id="msg" role="status" aria-live="polite"></p>
+    <p class="hint" id="hint">Stuck? Ask Fred for a hint.</p>
+  </div>
+</main>
+
+<script>
+const MENU = /*__MENU__*/[];
+const PAYLOAD = /*__PAYLOAD__*/null;
+
+const picks = {};
+const catsEl = document.getElementById("cats");
+
+for (const cat of MENU) {
+  picks[cat.id] = cat.multi ? new Set() : null;
+  const fs = document.createElement("fieldset");
+  const lg = document.createElement("legend");
+  lg.innerHTML = `${cat.label}${cat.hint ? ` <small>(${cat.hint})</small>` : ""}`;
+  fs.appendChild(lg);
+  const chips = document.createElement("div");
+  chips.className = "chips";
+  for (const opt of cat.options) {
+    const b = document.createElement("button");
+    b.type = "button";
+    b.className = "chip";
+    b.textContent = opt.label;
+    b.setAttribute("aria-pressed", "false");
+    b.addEventListener("click", () => {
+      if (cat.multi) {
+        const s = picks[cat.id];
+        s.has(opt.id) ? s.delete(opt.id) : s.add(opt.id);
+        b.setAttribute("aria-pressed", String(s.has(opt.id)));
+      } else {
+        picks[cat.id] = opt.id;
+        chips.querySelectorAll(".chip").forEach((c) => c.setAttribute("aria-pressed", String(c === b)));
+      }
+    });
+    chips.appendChild(b);
+  }
+  fs.appendChild(chips);
+  catsEl.appendChild(fs);
+}
+
+// Must match canonical() in build.mjs exactly.
+function canonical() {
+  return "kate-v1|" + MENU.map((cat) =>
+    cat.multi ? [...picks[cat.id]].sort().join(",") : (picks[cat.id] || "")
+  ).join("|");
+}
+
+const fromB64 = (s) => Uint8Array.from(atob(s), (c) => c.charCodeAt(0));
+
+async function tryUnlock(password) {
+  const subtle = crypto.subtle;
+  const base = await subtle.importKey("raw", new TextEncoder().encode(password), "PBKDF2", false, ["deriveKey"]);
+  const kek = await subtle.deriveKey(
+    { name: "PBKDF2", hash: "SHA-256", salt: fromB64(PAYLOAD.salt), iterations: PAYLOAD.iter },
+    base, { name: "AES-GCM", length: 256 }, false, ["decrypt"]
+  );
+  for (const k of PAYLOAD.keys) {
+    try {
+      const raw = await subtle.decrypt({ name: "AES-GCM", iv: fromB64(k.iv) }, kek, fromB64(k.ct));
+      const key = await subtle.importKey("raw", raw, "AES-GCM", false, ["decrypt"]);
+      const html = await subtle.decrypt({ name: "AES-GCM", iv: fromB64(PAYLOAD.iv) }, key, fromB64(PAYLOAD.data));
+      return new TextDecoder().decode(html);
+    } catch { /* not this one */ }
+  }
+  return null;
+}
+
+const WRONG = [
+  "Hmm… you're not Kate.",
+  "Nice try, impostor.",
+  "Kate would NEVER order that!!",
+  "The burrito police have been notified.",
+  "Fred? Is that you? Stop it.",
+  "So close… (it's not close)",
+  "Think like Kate. Be the burrito.",
+];
+const CHECKING = [
+  "Asking the burrito council…",
+  "Scanning for Kate-ness…",
+  "Consulting the guac oracle…",
+];
+let attempts = 0;
+
+const msg = document.getElementById("msg");
+const btn = document.getElementById("unlock");
+const card = document.getElementById("order");
+
+function say(text, shake) {
+  msg.textContent = text;
+  msg.classList.remove("shake");
+  if (shake) { void msg.offsetWidth; msg.classList.add("shake"); }
+}
+
+card.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const missing = MENU.filter((c) => !c.multi && !picks[c.id]);
+  if (missing.length) {
+    say(`Kate would know her ${missing[0].label.toLowerCase()}…`, true);
+    return;
+  }
+  if (!window.isSecureContext) {
+    say("The lock only opens on a secure (https) link.", true);
+    return;
+  }
+  if (!window.crypto?.subtle) {
+    say("This browser can't open the lock. Try Safari or Chrome.", true);
+    return;
+  }
+  btn.disabled = true;
+  btn.textContent = CHECKING[attempts % CHECKING.length];
+  say("");
+  const [html] = await Promise.all([tryUnlock(canonical()), new Promise((r) => setTimeout(r, 900))]);
+  if (html) {
+    btn.textContent = "Welcome, Kate!!";
+    say("Identity confirmed.");
+    setTimeout(() => { document.open(); document.write(html); document.close(); }, 900);
+    return;
+  }
+  say(WRONG[attempts % WRONG.length], true);
+  card.classList.remove("shake-card"); void card.offsetWidth; card.classList.add("shake-card");
+  attempts++;
+  if (attempts >= 4) document.getElementById("hint").classList.add("show");
+  btn.disabled = false;
+  btn.textContent = "Try again";
+});
+</script>
+</body>
+</html>

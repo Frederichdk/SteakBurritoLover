@@ -1,0 +1,146 @@
+[
+  {
+    "id": "entree",
+    "label": "Entrée",
+    "multi": false,
+    "options": [
+      {
+        "id": "burrito",
+        "label": "Burrito"
+      },
+      {
+        "id": "bowl",
+        "label": "Bowl"
+      },
+      {
+        "id": "tacos",
+        "label": "Tacos"
+      },
+      {
+        "id": "salad",
+        "label": "Salad"
+      },
+      {
+        "id": "quesadilla",
+        "label": "Quesadilla"
+      }
+    ]
+  },
+  {
+    "id": "protein",
+    "label": "Protein",
+    "multi": false,
+    "options": [
+      {
+        "id": "chicken",
+        "label": "Chicken"
+      },
+      {
+        "id": "steak",
+        "label": "Steak"
+      },
+      {
+        "id": "barbacoa",
+        "label": "Barbacoa"
+      },
+      {
+        "id": "carnitas",
+        "label": "Carnitas"
+      },
+      {
+        "id": "sofritas",
+        "label": "Sofritas"
+      },
+      {
+        "id": "veggie",
+        "label": "Veggie"
+      }
+    ]
+  },
+  {
+    "id": "rice",
+    "label": "Rice",
+    "multi": false,
+    "options": [
+      {
+        "id": "white",
+        "label": "White"
+      },
+      {
+        "id": "brown",
+        "label": "Brown"
+      },
+      {
+        "id": "none",
+        "label": "None"
+      }
+    ]
+  },
+  {
+    "id": "beans",
+    "label": "Beans",
+    "multi": false,
+    "options": [
+      {
+        "id": "black",
+        "label": "Black"
+      },
+      {
+        "id": "pinto",
+        "label": "Pinto"
+      },
+      {
+        "id": "none",
+        "label": "None"
+      }
+    ]
+  },
+  {
+    "id": "toppings",
+    "label": "Toppings",
+    "hint": "pick all that apply",
+    "multi": true,
+    "options": [
+      {
+        "id": "fajita",
+        "label": "Fajita Veggies"
+      },
+      {
+        "id": "mild",
+        "label": "Mild Salsa"
+      },
+      {
+        "id": "medium",
+        "label": "Medium Salsa"
+      },
+      {
+        "id": "hot",
+        "label": "Hot Salsa"
+      },
+      {
+        "id": "corn",
+        "label": "Corn Salsa"
+      },
+      {
+        "id": "sourcream",
+        "label": "Sour Cream"
+      },
+      {
+        "id": "cheese",
+        "label": "Cheese"
+      },
+      {
+        "id": "guac",
+        "label": "Guac"
+      },
+      {
+        "id": "queso",
+        "label": "Queso"
+      },
+      {
+        "id": "lettuce",
+        "label": "Lettuce"
+      }
+    ]
+  }
+]
