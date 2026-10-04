@@ -2,15 +2,15 @@
 
 A tiny site that asks Kate out for Korean BBQ. It's locked behind her Chipotle order.
 
-- `src/lock.html`: the public lock screen (the Chipotle order picker)
+- `src/index.html`: the whole page (the Chipotle lock, Porky, the grill game, the question, the ticket)
 - `src/menu.json`: the order categories and options
-- `private/`: the real page and the accepted order(s). **Git-ignored, never published.**
-- `build.mjs`: encrypts `private/content.html` so only an accepted order can unlock it, then writes `docs/index.html`
+- `private/secret.json`: Fred's phone number and the accepted order(s). **Git-ignored, never published.**
+- `build.mjs`: encrypts the phone number so only an accepted order can decrypt it, then writes `docs/index.html`
 - `docs/`: what GitHub Pages serves
 
 ## Change the order / page
 
-Edit `private/secret.json` (use option ids from `src/menu.json`) or `private/content.html`, then:
+Edit `private/secret.json` (use option ids from `src/menu.json`) or `src/index.html`, then:
 
 ```bash
 node build.mjs
