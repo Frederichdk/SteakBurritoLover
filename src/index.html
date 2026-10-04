@@ -12,7 +12,7 @@
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔒</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   /* ---------- Lock screen ---------- */
   :root {
@@ -255,6 +255,29 @@
   }
   .no.loose { position: fixed; }
 
+  /* "try it, I dare you": hand-drawn arrow under the first No */
+  .no-wrap { position: relative; display: inline-flex; }
+  .dare {
+    position: absolute; top: calc(100% + 2px); left: calc(50% - 62px);
+    display: flex; flex-direction: column; align-items: flex-start;
+    pointer-events: none; transition: opacity .25s;
+  }
+  .dare svg { width: 72px; height: 52px; overflow: visible; }
+  .dare path { fill: none; stroke: var(--ink); stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; }
+  .dare .shaft { stroke-dasharray: 80; stroke-dashoffset: 80; }
+  .dare .head { stroke-dasharray: 30; stroke-dashoffset: 30; }
+  .dare span {
+    font-family: "Caveat", "Bradley Hand", cursive; font-size: 24px; font-weight: 600;
+    white-space: nowrap; margin: -6px 0 0 -18px; transform: rotate(-5deg);
+    opacity: 0;
+  }
+  .screen.active .dare .shaft { animation: draw .7s .5s ease-out forwards; }
+  .screen.active .dare .head { animation: draw .25s 1.15s ease-out forwards; }
+  .screen.active .dare span { animation: fadein .4s 1.3s ease-out forwards; }
+  @keyframes draw { to { stroke-dashoffset: 0 } }
+  @keyframes fadein { to { opacity: 1 } }
+  .dare.gone { opacity: 0; }
+
   /* ---------- Yes! ---------- */
   .yay { font-size: 44px; font-weight: 700; color: var(--accent); animation: yay .6s ease infinite alternate; }
   @keyframes yay { to { transform: scale(1.08) rotate(-2deg) } }
@@ -358,7 +381,16 @@
     <p class="muted">— Fred</p>
     <div class="answers">
       <button class="yes" id="yes">YES!!</button>
-      <button class="no" id="no">No</button>
+      <span class="no-wrap">
+        <button class="no" id="no">No</button>
+        <span class="dare" id="dare" aria-hidden="true">
+          <svg viewBox="0 0 72 52">
+            <path class="shaft" d="M8 48 C 12 34, 26 22, 40 16 S 58 8, 62 4"/>
+            <path class="head" d="M50 3 L62 4 L58 15"/>
+          </svg>
+          <span>try it, I dare you</span>
+        </span>
+      </span>
     </div>
   </section>
 
@@ -558,6 +590,7 @@ function dodge(e) {
   if (e) { e.preventDefault(); e.stopPropagation(); }
   if (performance.now() - lastDodge < 250) return; // one tap = one dodge
   lastDodge = performance.now();
+  $("#dare").classList.add("gone");
   boing();
   no.textContent = NO_LABELS[Math.min(dodges, NO_LABELS.length - 1)];
   const shrink = Math.max(0.35, 1 - Math.max(0, dodges - NO_LABELS.length + 2) * 0.2);
@@ -618,7 +651,7 @@ yes.addEventListener("click", (e) => {
 
 // ---------- 4. Yay ----------
 $("#again").addEventListener("click", () => {
-  dodges = 0; no.textContent = "No"; no.removeAttribute("style"); no.className = "no";
+  dodges = 0; no.textContent = "No"; no.removeAttribute("style"); no.className = "no"; $("#dare").classList.remove("gone");
   yes.style.transform = ""; show("s-hello"); hello();
 });
 
